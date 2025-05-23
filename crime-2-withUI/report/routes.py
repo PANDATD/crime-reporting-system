@@ -5,6 +5,7 @@ import imghdr
 from email.message import EmailMessage
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request ,abort
+from urllib.parse import urlparse
 from report import app, db, bcrypt 
 from report.forms import *
 from report.models import User, Report 
@@ -56,7 +57,11 @@ def login():
             if current_user.id == 1:
                 return redirect(url_for('admin'))
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            if next_page:
+                parsed_url = urlparse(next_page)
+                if not parsed_url.netloc and not parsed_url.scheme:
+                    return redirect(next_page)
+            return redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
