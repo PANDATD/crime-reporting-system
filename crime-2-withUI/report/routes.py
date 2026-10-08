@@ -189,8 +189,8 @@ def send_reset_email(user):
     # EMAIL_ADDRESS = os.environ['EMAIL']
     # EMAIL_PASSWORD = os.environ['E_PASSWORD']
     
-    EMAIL_ADDRESS = 'crime.report.ghule.@gmail.com'
-    EMAIL_PASSWORD = 'v658734657543276kreg'
+    EMAIL_ADDRESS = os.getenv('RESET_EMAIL_ADDRESS', '')
+    EMAIL_PASSWORD = os.getenv('RESET_EMAIL_PASSWORD', '')
 
     msg = EmailMessage()
     msg['Subject'] = 'Password Reset'
